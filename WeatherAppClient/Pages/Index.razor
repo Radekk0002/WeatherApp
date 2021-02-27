@@ -1,0 +1,71 @@
+﻿@page "/"
+@inject HttpClient Http
+@using System.Text.Json
+@using System.Globalization
+
+@if (_forecasts == null)
+{
+    <p class="loading text-center position-absolute"><em>Loading...</em></p>
+}
+else
+{
+    <div class="wrapper d-flex flex-column align-items-center pb-4">
+        <header class="pt-4 mb-sm-3 w-100 d-flex flex-column align-items-center">
+            <SearchBar></SearchBar>
+            <div class="container mt-md-4 pt-5 w-100 d-flex justify-content-center">
+                <WeatherCard WeatherInfo="@((WeatherForecast)_forecasts[0])"></WeatherCard>
+            </div>
+        </header>
+    
+        <div id="shortCardContainer" class="mt-2 d-flex flex-wrap justify-content-around justify-content-lg-center w-100">
+            <ShortWeatherCards @ref="_shortWeatherCards" ShortWeatherInfo="@(_forecasts)"></ShortWeatherCards>
+            <AddMore OnShowMore="ShowMoreForecasts"></AddMore>
+        </div>
+    </div>
+    <div>
+    </div>
+}
+
+
+@code{
+    
+    private IShortWeatherForecast[] _forecasts;
+    private ShortWeatherCards _shortWeatherCards;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await Http.GetFromJsonAsync<JsonElement>($"https://api.openweathermap.org/data/2.5/onecall?lat=52.13&lon=21&exclude=hourly&units=metric&appid={WeatherAPIkey.APIkey}");
+        
+        DateTime date = DateTime.Now;
+
+        _forecasts = new IShortWeatherForecast[7];
+        for (int i = 0; i < _forecasts.Length; i++)
+        {
+            IShortWeatherForecast swf = new WeatherForecast();
+
+            swf.Date = date.AddDays(i);
+            swf.Wind = data.GetProperty("daily")[i].GetProperty("wind_speed").GetDouble();
+            swf.TemperatureC = Math.Round(data.GetProperty("daily")[i].GetProperty("temp").GetProperty("day").GetDouble(),1);
+            swf.Summary = data.GetProperty("daily")[i].GetProperty("weather")[0].GetProperty("description").ToString();
+            swf.Icon = data.GetProperty("daily")[i].GetProperty("weather")[0].GetProperty("icon").ToString();
+            swf.Humidity = data.GetProperty("daily")[i].GetProperty("humidity").GetInt32();
+            _forecasts[i] = swf;
+        }
+
+        WeatherForecast wf = (WeatherForecast)(_forecasts[0]);
+
+        wf.Place = data.GetProperty("timezone").ToString();
+        wf.Pressure = data.GetProperty("daily")[0].GetProperty("pressure").GetInt32();
+        wf.Cloudiness = data.GetProperty("daily")[0].GetProperty("clouds").GetInt32();
+
+        _forecasts[0] = wf;
+
+    }
+
+    private void ShowMoreForecasts(object _)
+    {
+        _shortWeatherCards.Styles = "opacity:1 ; max-height: none ; overflow: auto;";
+    }
+
+}
+

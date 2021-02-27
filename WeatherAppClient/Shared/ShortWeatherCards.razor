@@ -1,0 +1,49 @@
+﻿@using WeatherAppClient.Data
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+
+
+@if (ShortWeatherInfo == null)
+{
+    <p class="loading text-center position-absolute"><em>Loading...</em></p>
+}
+else
+{
+    @for (int i = 1; i < ShortWeatherInfo.Length; i++)
+    {
+        var item = ShortWeatherInfo[i];
+        <div style="@(i>2 ? Styles + $"transition-delay: 0.{i}s":"")" class="mb-2 mb-md-3 shortWeatherCard card">
+            <div class="p-1 d-flex flex-column align-items-center w-100 h-100 text-center pt-3 pb-3">
+                <h4 class="temperature mt-1 d-flex justify-content-center align-items-center">
+                    @item.TemperatureC
+                    <img src="icons/degree-celsius.svg"/>
+                </h4>
+                <img src="@($"icons/weatherSummaryIcons/{item.Icon}.svg")" class="summaryIconShort" />
+                <h5 class="summary d-flex align-items-center justify-content-center">@(char.ToUpper(item.Summary[0]) + item.Summary.Substring(1))</h5>
+                <h6 class="mt-auto">
+                    @(char.ToUpper(item.Date.ToString("ddd", new CultureInfo("en"))[0]) +
+                      item.Date.ToString("dddd", new CultureInfo("en")).Substring(1))
+                </h6>
+                <p class="d-flex justify-content-around align-items-center w-100 mb-1 text-center">
+                    <div class="text-center">
+                        <span class="d-block">Wind </span>
+                        <span class="mt-sm-1 mb-sm-1 ml-sm-2 mr-sm-2 d-block">@($"{@item.Wind} m/s")</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="d-block">Humidity </span>
+                        <span class="mt-sm-1 mb-sm-1 ml-sm-2 mr-sm-2 d-block">@($"{@item.Humidity} %")</span>
+                    </div>
+                </p>
+            </div>
+        </div>
+    }
+}
+
+
+
+@code {
+    [Parameter]
+    public IShortWeatherForecast[] ShortWeatherInfo { get; set; }
+
+    public string Styles { get; set; } = "opacity:0 ; max-height: 0px ; overflow: hidden;";
+}

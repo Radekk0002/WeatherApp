@@ -1,0 +1,342 @@
+﻿html, body {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 300;
+    background-color: #202020;
+    color: #fbf0fe;
+}
+
+body{
+    padding-bottom: 50px;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper {
+    width: 92%;
+    max-width: 350px;
+}
+
+.container {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+header > .container {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.searchbar {
+    width: 90%;
+    height: 40px;
+    background-color: #353b48;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search_input {
+    color: #fbf0fe;
+    border: 0;
+    outline: 0;
+    background: none;
+    line-height: 35px;
+    margin: 7px;
+    width: 85%;
+}
+
+.search_icon {
+    background: white;
+    height: 30px;
+    width: 30px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-decoration: none;
+    margin: 7px;
+}
+
+.search_icon img{
+    width: 20px;
+    filter: invert(6%) sepia(25%) saturate(6%) hue-rotate(314deg) brightness(96%) contrast(86%);
+}
+
+.loading{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+#weatherCard {
+    min-height: 500px;
+    flex-grow: 1;
+}
+
+#weatherCard, .shortWeatherCard {
+    background-color: #907d78;
+    border-radius: 10px;
+}
+
+#place{
+    font-weight: bold;
+}
+
+h3.temperature, h4.temperature {
+    font-weight: inherit;
+}
+
+.temperature > img{
+    filter: brightness(0) saturate(100%) invert(91%) sepia(9%) saturate(329%) hue-rotate(228deg) brightness(103%) contrast(99%);
+    width: 25px;
+    transform: translateY(-1px);
+}
+
+h4.temperature > img{
+    width: 22px;
+}
+
+.summaryIcon {
+    width: 100px;
+}
+
+.summaryIconShort {
+    width: 75px;
+}
+
+.summary{
+    min-height: 50px;
+    font-weight: 500;
+}
+
+.fa-circle {
+    font-size: 8px;
+    transform: translateY(-16px) translateX(-5px);
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+#shortCardContainer {
+    position: relative;
+    flex-basis: 0;
+}
+
+#shortCardContainer span {
+    font-size: 13px;
+}
+
+.shortWeatherCard {
+/*    min-height: 280px;*/
+    width: 45%;
+    transition: opacity 0.3s linear;
+}
+
+.shortWeatherCard > div{
+    min-height: 280px;
+}
+
+#addMore {
+    width: 40px;
+    height: 40px;
+    border: 2px solid;
+    cursor: pointer;
+    position: absolute;
+    transform: translate(0,calc(700% + 1rem));
+    top: 100%;
+    top: 0;
+    opacity: 1;
+    z-index: 100;
+    transition: opacity 0.1s ease;
+}
+
+#shortCardContainer > #addMore > span{
+    font-size: 35px;
+    transform: translateY(-4.7px);
+}
+
+#blazor-error-ui {
+    background: #907d78;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    color: #202020;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+@media (min-width: 400px) {
+    .wrapper {
+        max-width: 380px;
+    }
+}
+
+@media (min-width: 576px) {
+    .wrapper {
+        width: 95%;
+        max-width: 1100px;
+    }
+
+    header > .container p {
+        max-width: 375px;
+        font-size: 18px;
+    }
+    
+    header .temperature {
+        font-size: 38px;
+    }
+
+    header .fa-circle {
+        transform: translateY(-25px) translateX(-5px);
+    }
+
+    .fa-circle {
+        font-size: 10px;
+    }
+    
+    .summaryIcon{
+        width: 110px;
+    }
+
+    .summaryIconShort {
+        width: 85px;
+    }
+    
+    header h3 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 25px;
+    }
+
+    .temperature > img{
+        width: 34px;
+        transform: translateY(-2px);
+    }
+    
+    h4.temperature > img{
+        transform: translateY(-1.5px);
+        width: 23px;
+    }
+
+    .container {
+        max-width: 90%;
+    }
+
+    #weatherCard {
+        max-width: 100%;
+    }
+
+    #shortCardContainer .temperature {
+        font-size: 24px;
+    }
+
+    .shortWeatherCard {
+        height: 300px;
+    }
+
+    #shortCardContainer p {
+        max-width: 175px;
+    }
+
+    #shortCardContainer span {
+        font-size: 15px;
+    }
+
+    #addMore{
+        transform: translate(0,calc(750% + 1rem));
+    }
+}
+
+@media(min-width: 700px)
+{
+    #weatherCard > div > .summary{
+        font-size: 35px;
+    }
+
+    #weatherCard > div > .temperature{
+        font-size: 45px;
+    }
+
+    h3.temperature > img{
+        width: 40px;
+    }
+
+    .summaryIcon{
+        width: 135px;
+    }
+
+    .summaryIconShort {
+        width: 95px;
+    }
+}
+
+@media (min-width: 700px) and (min-height: 700px) {
+    .shortWeatherCard {
+        height: 320px;
+    }
+
+    #addMore{
+        transform: translate(0,calc(800% + 1rem));
+    }
+}
+
+@media (min-width: 992px) {
+    header h3 {
+        font-size: 35px;
+    }
+
+    .summaryIcon{
+        width: 150px;
+    }
+
+    #shortCardContainer {
+        padding: 0 30px 0 30px;
+    }
+
+    .shortWeatherCard {
+        max-width: 270px;
+        height: 310px;
+        margin: 10px;
+    }
+    #addMore {
+        top: 0;
+        right: 25%;
+        transform: translate(-50%,calc(300% + 1rem));
+    }
+}
+
+@media (min-height: 700px) {
+    header {
+        margin-top: 50px;
+    }
+
+    #weatherCard {
+        min-height: 600px;
+    }
+
+    .shortWeatherCard {
+        height: 290px;
+    }
+    
+
+}
+
+

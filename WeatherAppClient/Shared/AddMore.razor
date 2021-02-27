@@ -1,0 +1,16 @@
+﻿<div @onclick="@(()=> { ShowMore(); })" id="addMore" style="@(DisableButton)" class="rounded-circle d-flex align-items-center justify-content-center">
+    <span>+</span>
+</div>
+
+@code {
+    private string DisableButton { get; set; }
+
+    [Parameter]
+    public EventCallback OnShowMore { get; set; }
+    
+    private async void ShowMore()
+    {
+        DisableButton = "opacity: 0; pointer-events:none;";
+        await OnShowMore.InvokeAsync(null);
+    }
+}

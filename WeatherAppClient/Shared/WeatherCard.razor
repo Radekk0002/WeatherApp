@@ -1,0 +1,56 @@
+﻿
+@using WeatherAppClient.Data
+@using System.Globalization
+
+@if (WeatherInfo == null)
+{
+    <p class="loading text-center position-absolute"><em>Loading...</em></p>
+}
+else
+{
+    <div id="weatherCard" class="card">
+        <div class="p-1 d-flex flex-column justify-content-around align-items-center w-100 h-100 text-center">
+            <h2 id="place" class="mt-1">@WeatherInfo.Place</h2>
+            <h3 class="temperature d-flex justify-content-center align-items-center">
+                @WeatherInfo.TemperatureC
+                <img src="icons/degree-celsius.svg"/>
+            </h3>
+            <img src="@($"icons/weatherSummaryIcons/{WeatherInfo.Icon}.svg")" class="summaryIcon" />
+            <h3 class="summary">@(char.ToUpper(WeatherInfo.Summary[0]) + WeatherInfo.Summary.Substring(1))</h3>
+            <h4>
+                @(char.ToUpper(WeatherInfo.Date.ToString("ddd", new CultureInfo("en"))[0]) +
+                WeatherInfo.Date.ToString("dddd, HH:mm tt", new CultureInfo("en")).Substring(1))
+            </h4>
+            <p class="d-flex justify-content-around align-items-center w-100">
+                <div class="text-center">
+                    <span class="d-block">Wind </span>
+                    <span class="mt-sm-1 mb-sm-1 ml-sm-2 mr-sm-2 d-block">@($"{@WeatherInfo.Wind} m/s")</span>
+                </div>
+                <div class="text-center">
+                    <span class="d-block">Pressure </span>
+                    <span class="mt-sm-1 mb-sm-1 ml-sm-2 mr-sm-2 d-block">@($"{@WeatherInfo.Pressure} hPa")</span>
+                </div>
+
+            </p>
+            <p class="d-flex justify-content-around align-items-center w-100 mb-1">
+                <div class="text-center">
+                    <span class="d-block">Humidity </span>
+                    <span class="mt-sm-1 mb-sm-1 ml-sm-2 mr-sm-2 d-block">@($"{@WeatherInfo.Humidity} %")</span>
+                </div>
+                <div class="text-center">
+                    <span class="d-block">Cloudiness </span>
+                    <span class="mt-sm-1 mb-sm-1 ml-sm-2 mr-sm-2 d-block">@($"{@WeatherInfo.Cloudiness} %")</span>
+                </div>
+
+            </p>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public WeatherForecast WeatherInfo { get; set; }
+
+}
