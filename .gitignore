@@ -1,8 +1,9 @@
-﻿/WeatherAppClient/Data/WeatherAPIkey.cs
-.vs/
+﻿.vs/
 bin/
 obj/
 .dotnet/
 .idea/
 *.sln.iml
 /WeatherAppClient/wwwroot/css/open-iconic/
+/WeatherAppClient/wwwroot/css/weatherIcons/
+/WeatherAppClient/Data/WeatherAPIkey.cs

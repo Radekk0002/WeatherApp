@@ -1,7 +1,32 @@
-﻿<div class="searchbar">
-    <input class="search_input" type="text" name="" placeholder="Search...">
+﻿@using System.Runtime.CompilerServices
+@inject IJSRuntime JsRuntime
+
+<div class="searchbar">
+    <input @ref=inputPlace placeholder="Search..." id="inputPlace" class="search_input" type="text" name="">
     <a href="#" class="search_icon"><img src="icons/search-solid.svg"/></a>
 </div>
+
 @code {
+    
+    private string InputValue { get; set; }
+    ElementReference inputPlace;
+
+    [Parameter]
+    public Action<double, double, string> PlaceChanged { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("SetGoogle", inputPlace, DotNetObjectReference.Create(this));
+            
+        }
+    }
+    
+    [JSInvokable]
+    public void OnPlaceChanged(double lat, double lng, string name)
+    {
+        PlaceChanged.Invoke(lat,lng,name);
+    }
 
 }
