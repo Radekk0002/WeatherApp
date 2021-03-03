@@ -8,11 +8,11 @@ namespace WeatherAppClient.Data
 {
     public class WeatherForecastService
     {
-        public async Task<IShortWeatherForecast[]> GetDataAsync(double lat, double lon, string place)
+        public async Task<IShortWeatherForecast[]> GetDataAsync(decimal lat, decimal lon, string place)
         {
             HttpClient Http = new HttpClient();
 
-            var data = await Http.GetFromJsonAsync<JsonElement>($"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=hourly&units=metric&appid={WeatherAPIkey.APIkey}");
+            var data = await Http.GetFromJsonAsync<JsonElement>($"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=hourly&units=metric&appid={APIkeys.WeatherAPIkey}");
         
             DateTime date = DateTime.Now;
 

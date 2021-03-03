@@ -6,4 +6,4 @@ obj/
 *.sln.iml
 /WeatherAppClient/wwwroot/css/open-iconic/
 /WeatherAppClient/wwwroot/css/weatherIcons/
-/WeatherAppClient/Data/WeatherAPIkey.cs
+/WeatherAppClient/Data/APIkeys.cs

@@ -11,20 +11,20 @@
     private string InputValue { get; set; }
     ElementReference inputPlace;
 
-    [Parameter]
-    public Action<double, double, string> PlaceChanged { get; set; }
+    [Parameter] 
+    public Action<decimal, decimal, string> PlaceChanged { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JsRuntime.InvokeVoidAsync("SetGoogle", inputPlace, DotNetObjectReference.Create(this));
+            await JsRuntime.InvokeVoidAsync("methods.SetGoogle", inputPlace, DotNetObjectReference.Create(this));
             
         }
     }
     
     [JSInvokable]
-    public void OnPlaceChanged(double lat, double lng, string name)
+    public void OnPlaceChanged(decimal lat, decimal lng, string name)
     {
         PlaceChanged.Invoke(lat,lng,name);
     }

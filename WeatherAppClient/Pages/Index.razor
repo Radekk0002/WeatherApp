@@ -1,4 +1,9 @@
 ﻿@page "/"
+@inject IJSRuntime JsRuntime
+
+@using System.Text.Json
+@using System.Globalization
+@inject HttpClient Http
 
 @inject WeatherForecastService ForecastService
 
@@ -34,12 +39,28 @@ else
     private string FadeInOut { get; set; } = "";
     // its only to animate first load of the site
     private string Active { get; set; } = "active";
-
+    private static decimal[] position;
 
     protected override async Task OnInitializedAsync()
     {
+        position = await JsRuntime.InvokeAsync<decimal[]>( "methods.GetLocation");
 
-        _forecasts = await ForecastService.GetDataAsync(52.13, 21, "Warsaw");
+        // Warsaw geolocation
+        decimal lat = 52.23M;
+        decimal lon = 21;
+        string name = "Warsaw";
+
+        if (position != null && position.Length > 1)
+        {
+            lat = position[0];
+            lon = position[1];
+            string uri = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat.ToString(new CultureInfo("en-US"))},{lon.ToString(new CultureInfo("en-US"))}&radius=150&type=(cities)&language=en&key={APIkeys.PlacesAPIkey}";
+            var data = await Http.GetFromJsonAsync<JsonElement>(uri);
+            name = data.GetProperty("results")[0].GetProperty("name").ToString();
+        }
+        
+
+        _forecasts = await ForecastService.GetDataAsync(lat, lon, name);
         await Task.Delay(50);
         StateHasChanged();
         
@@ -50,8 +71,7 @@ else
         StateHasChanged();
     }
 
-    
-    public async void PlaceChangedHandler(double lat, double lng, string name)
+    public async void PlaceChangedHandler(decimal lat, decimal lng, string name)
     {
         FadeInOut = "opacity: 0;";
         StateHasChanged();
