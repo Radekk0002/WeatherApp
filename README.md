@@ -3,4 +3,4 @@ Basic Weather application that allows seeing forecasts for the next 6 days. It w
 
 TODO:
 - get user current GPS location
-- autocomplete when searching for a place
+- allow to change metric system
