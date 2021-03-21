@@ -12,7 +12,7 @@ namespace WeatherAppClient.Data
         {
             HttpClient Http = new HttpClient();
 
-            var data = await Http.GetFromJsonAsync<JsonElement>($"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude=hourly&units=metric&appid={APIkeys.WeatherAPIkey}");
+            var data = await Http.GetFromJsonAsync<JsonElement>($"https://localhost:44340/api/weather/?Latitude={lat}&Longitude={lon}");
         
             DateTime date = DateTime.Now;
 

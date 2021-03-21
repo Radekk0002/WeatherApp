@@ -1,7 +1,7 @@
 ﻿var options={
     enableHighAccuracy: true,
     timeout: 5500,
-    maximumAge: 10000 // 6h
+    maximumAge: 10000 // 10s
 }
 
 function getPosition(){

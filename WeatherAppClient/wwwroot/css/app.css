@@ -146,7 +146,6 @@ p {
 }
 
 .shortWeatherCard {
-/*    min-height: 280px;*/
     width: 45%;
     transition: opacity 0.3s linear;
 }
