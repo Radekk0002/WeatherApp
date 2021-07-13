@@ -11,9 +11,7 @@ namespace WeatherAppClient.Data
         public async Task<IShortWeatherForecast[]> GetDataAsync(decimal lat, decimal lon, string place)
         {
             HttpClient Http = new HttpClient();
-
-            var data = await Http.GetFromJsonAsync<JsonElement>($"https://localhost:44340/api/weather/?Latitude={lat}&Longitude={lon}");
-        
+            var data = await Http.GetFromJsonAsync<JsonElement>($"https://api.radekkisiel.pl/api/weather/?Latitude={lat}&Longitude={lon}");
             DateTime date = DateTime.Now;
 
             IShortWeatherForecast[] _forecasts = new IShortWeatherForecast[7];

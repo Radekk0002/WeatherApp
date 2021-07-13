@@ -33,7 +33,7 @@ else
 
 
 @code{
-    
+
     private IShortWeatherForecast[] _forecasts;
     private ShortWeatherCards _shortWeatherCards;
     private string FadeInOut { get; set; } = "";
@@ -43,7 +43,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+
         position = await JsRuntime.InvokeAsync<decimal[]>( "methods.GetLocation");
+
 
         // Warsaw geolocation
         decimal lat = 52.23M;
@@ -52,18 +54,21 @@ else
 
         if (position != null && position.Length > 1)
         {
+
             lat = position[0];
             lon = position[1];
-            string uri = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat.ToString(new CultureInfo("en-US"))},{lon.ToString(new CultureInfo("en-US"))}&radius=150&type=(cities)&language=en&key={APIkeys.PlacesAPIkey}";
+            string uri = $"https://api.radekkisiel.pl/api/place/?Lat={lat}&Lon={lon}";
             var data = await Http.GetFromJsonAsync<JsonElement>(uri);
             name = data.GetProperty("results")[0].GetProperty("name").ToString();
+
         }
-        
+
 
         _forecasts = await ForecastService.GetDataAsync(lat, lon, name);
+
         await Task.Delay(50);
         StateHasChanged();
-        
+
         // waiting for the end of animation
         await Task.Delay(150);
         FadeInOut = "opacity: 1;";
@@ -75,15 +80,15 @@ else
     {
         FadeInOut = "opacity: 0;";
         StateHasChanged();
-        
+
         // waiting for the end of transition
         await Task.Delay(150);
-        
+
         _forecasts = await ForecastService.GetDataAsync(lat, lng, name);
         StateHasChanged();
-        
+
         FadeInOut = "opacity: 1;";
-        
+
         StateHasChanged();
     }
 
