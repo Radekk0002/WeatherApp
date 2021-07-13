@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -11,7 +12,11 @@ namespace WeatherAppClient.Data
         public async Task<IShortWeatherForecast[]> GetDataAsync(decimal lat, decimal lon, string place)
         {
             HttpClient Http = new HttpClient();
-            var data = await Http.GetFromJsonAsync<JsonElement>($"https://api.radekkisiel.pl/api/weather/?Latitude={lat}&Longitude={lon}");
+/*            string uri = $"https://localhost:44380/api/Weather?Latitude={lat.ToString(new CultureInfo("en-US"))}&Longitude={lon.ToString(new CultureInfo("en-US"))}";*/
+            string uri = $"https://api.radekkisiel.pl/api/Weather?Latitude={lat.ToString(new CultureInfo("en-US"))}&Longitude={lon.ToString(new CultureInfo("en-US"))}";
+
+            var response = await Http.GetAsync(uri);
+            JsonElement data = JsonSerializer.Deserialize<JsonElement>(response.Content.ReadAsStringAsync().Result);
             DateTime date = DateTime.Now;
 
             IShortWeatherForecast[] _forecasts = new IShortWeatherForecast[7];

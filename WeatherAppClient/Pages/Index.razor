@@ -57,44 +57,47 @@ else
 
             lat = position[0];
             lon = position[1];
-            string uri = $"https://api.radekkisiel.pl/api/place/?Lat={lat}&Lon={lon}";
-            var data = await Http.GetFromJsonAsync<JsonElement>(uri);
+
+@*            string uri = $"https://localhost:44380/api/Place?Lat={lat.ToString(new CultureInfo("en-US"))}&Lon={lon.ToString(new CultureInfo("en-US"))}";*@
+            string uri = $"https://api.radekkisiel.pl/api/Place?Lat={lat.ToString(new CultureInfo("en-US"))}&Lon={lon.ToString(new CultureInfo("en-US"))}";
+
+            var response = await Http.GetAsync(uri);
+            JsonElement data = JsonSerializer.Deserialize<JsonElement>(response.Content.ReadAsStringAsync().Result);
+
             name = data.GetProperty("results")[0].GetProperty("name").ToString();
-
-        }
-
-
-        _forecasts = await ForecastService.GetDataAsync(lat, lon, name);
-
-        await Task.Delay(50);
-        StateHasChanged();
-
-        // waiting for the end of animation
-        await Task.Delay(150);
-        FadeInOut = "opacity: 1;";
-        Active = "";
-        StateHasChanged();
     }
 
-    public async void PlaceChangedHandler(decimal lat, decimal lng, string name)
-    {
-        FadeInOut = "opacity: 0;";
-        StateHasChanged();
+    _forecasts = await ForecastService.GetDataAsync(lat, lon, name);
 
-        // waiting for the end of transition
-        await Task.Delay(150);
+    await Task.Delay(50);
+    StateHasChanged();
 
-        _forecasts = await ForecastService.GetDataAsync(lat, lng, name);
-        StateHasChanged();
+    // waiting for the end of animation
+    await Task.Delay(150);
+    FadeInOut = "opacity: 1;";
+    Active = "";
+    StateHasChanged();
+}
 
-        FadeInOut = "opacity: 1;";
+public async void PlaceChangedHandler(decimal lat, decimal lng, string name)
+{
+    FadeInOut = "opacity: 0;";
+    StateHasChanged();
 
-        StateHasChanged();
-    }
+    // waiting for the end of transition
+    await Task.Delay(150);
 
-    private void ShowMoreForecasts()
-    {
-        _shortWeatherCards.Styles = "opacity:1 ; max-height: none ; overflow: auto;";
-    }
+    _forecasts = await ForecastService.GetDataAsync(lat, lng, name);
+    StateHasChanged();
+
+    FadeInOut = "opacity: 1;";
+
+    StateHasChanged();
+}
+
+private void ShowMoreForecasts()
+{
+    _shortWeatherCards.Styles = "opacity:1 ; max-height: none ; overflow: auto;";
+}
 }
 
