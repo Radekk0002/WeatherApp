@@ -1,5 +1,4 @@
-Basic Weather application that allows seeing forecasts for the next 6 days. It was created using Blazor.
+Basic Weather Forecast application that allows seeing forecasts for the next 6 days. It was created with Blazor, Browser API for geolocation, Google API for searching places and OpenWeatherMap API for forecast.
 
 
-TODO:
-- allow to change metric system
+![Alt text](/weatherapp.jpeg?raw=true "Weather Forecast app")
